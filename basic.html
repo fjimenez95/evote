@@ -101,11 +101,15 @@
 	</form>
 
 	<div><img id="step3" src="./imgs/step3.png" alt="" style="width: 100px; display: none;"></div>
-	<div id="step3-instructions" style="display: none;">Please vote below!</div>
-	<div class="voting-list" id="results" style="display: none;">John Doe</div>
-	<div class="voting-list" id="results" style="display: none;">Mary Smith</div>
-	<div class="voting-list" id="results" style="display: none;">Mark Cunningham</div>
-	<div class="voting-list" id="results" style="display: none;">Brian Steward</div>
+	<div id="step3-instructions" style="display: none;">
+		<p>Please vote below!</p>
+		<div class="voting-list" id="results" style="display: none;">John Doe</div>
+		<div class="voting-list" id="results" style="display: none;">Mary Smith</div>
+		<div class="voting-list" id="results" style="display: none;">Mark Cunningham</div>
+		<div class="voting-list" id="results" style="display: none;">Brian Steward</div>	
+	</div>
+	<input id="votebutton" class="" type=button value="Submit your vote!" onClick="acceptVote()" disabled>
+		
 
 
 	
@@ -115,6 +119,7 @@
 	<script language="JavaScript">
 		var BASE_URL = 'https://m3edbqcbg3.execute-api.us-east-1.amazonaws.com'
 		var base64EncodedImage;
+		var ResultJSON;
 		function take_snapshot() {
 			// take snapshot and get image data
 			Webcam.snap( function(data_uri) {
@@ -196,26 +201,58 @@
 				}
 			}).then(result => {
 				console.log(result);
-				verificationHandler(result);
-				document.getElementById('result-from-verification').innerHTML = "You have been verified and are eligible to vote! Please follow the instructions below."
-				document.getElementById("result-from-verification").style.display = "";
-				document.getElementById("result-from-verification").style.color = "green";
-				document.getElementById("verified-check").style.display = "";
-				document.getElementById("step3").style.display = "";
-				document.getElementById("step3-instructions").style.display = "";
-				var elems = document.getElementsByClassName('voting-list');
-				for (var i=0;i<elems.length;i+=1) {
-					elems[i].style.display = "";
-				}
+				resultJSON = JSON.parse(result);
+				console.log(resultJSON);
+				verificationHandler(resultJSON);
 			})
 
 		}
 
-	function verificationHandler(result) {
-		if (result == "Voter is valid and has not voted yet") {
-			document.getElementById('result-from-verification').innerHTML = "You have been verified! Please follow the instructions below."
-			
+	function verificationHandler(resultJSON) {
+		if (resultJSON.result == 1) {
+			document.getElementById('result-from-verification').innerHTML = "You have been verified and are eligible to vote! Please follow the instructions below."
+			document.getElementById("result-from-verification").style.display = "";
+			document.getElementById("result-from-verification").style.color = "green";
+			document.getElementById("verified-check").style.display = "";
+			document.getElementById("step3").style.display = "";
+			document.getElementById("step3-instructions").style.display = "";
+			var elems = document.getElementsByClassName('voting-list');
+			for (var i=0;i<elems.length;i+=1) {
+				elems[i].style.display = "";
+			}
+			document.getElementById('votebutton').disabled = false;
 		}
+		if (resultJSON.result == 2) {
+			document.getElementById('result-from-verification').innerHTML = "You have been verified, but you have already voted. Thank you for exercising your right to vote!"
+			document.getElementById("result-from-verification").style.display = "";
+			document.getElementById("result-from-verification").style.color = "green";
+			document.getElementById("verified-check").style.display = "";
+			document.getElementById("step3").style.display = "none";
+			document.getElementById("step3-instructions").style.display = "none";
+			var elems = document.getElementsByClassName('voting-list');
+			for (var i=0;i<elems.length;i+=1) {
+				elems[i].style.display = "none";
+			}
+			document.getElementById('votebutton').disabled = true;
+		}
+		else if (resultJSON.result == 3) {
+			document.getElementById('result-from-verification').innerHTML = "We could not verify you. Please try again."
+			document.getElementById("result-from-verification").style.display = "";
+			document.getElementById("result-from-verification").style.color = "red";
+			document.getElementById("verified-check").style.display = "none";
+			document.getElementById("step3").style.display = "none";
+			document.getElementById("step3-instructions").style.display = "none";
+			var elems = document.getElementsByClassName('voting-list');
+			for (var i=0;i<elems.length;i+=1) {
+				elems[i].style.display = "none";
+			}
+			document.getElementById('votebutton').disabled = true;
+		}
+		// else {
+		// 	document.getElementById('result-from-verification').innerHTML = "Error"
+		// 	document.getElementById("result-from-verification").style.display = "";
+		// 	document.getElementById("result-from-verification").style.color = "red";
+		// }
 	}
 
 
@@ -227,7 +264,7 @@
 				"Content-Type": "application/json"
 			},
 			body: JSON.stringify([{
-				ssn: ssn,
+				ssn: value,
 			}]),
 			}
 			
