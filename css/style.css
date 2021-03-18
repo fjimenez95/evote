@@ -156,3 +156,32 @@ video {
     align-items: center;
     margin: 5% 0 0 0;
 }
+
+#votebutton  {
+    color: #fff !important;
+    text-transform: uppercase;
+    text-decoration: none;
+    background: rgb(18,90,156);
+    padding: 10px;
+    border-radius: 5px;
+    display: inline-block;
+    border: none;
+    transition: all 0.4s ease 0s;
+    font-size: 20px;
+    margin: 0 0 15% 0;
+    justify-content: center;
+    font-family: 'Poppins', sans-serif;
+    width: 100%
+}
+
+#step3-instructions {
+    display: flex;
+    flex-direction: column;
+}
+
+#voting-success {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

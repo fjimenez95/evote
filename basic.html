@@ -24,7 +24,7 @@
 </head>
 <body>
 	<nav>
-		<p id="official-title"><img id="flag" src="./imgs/us_flag.png" alt="" style="height: 13px"> An official website of the United States Government</p>
+		<p id="official-title"><img id="flag" src="./imgs/us_flag.png" alt="" style="height: 13px"> An unofficial website of the United States Government</p>
 		<div class="bottom-nav-bar">
 			<img src="./imgs/Accuvote.png" alt="" id="logo">
 			<h3 id="title-headline">Making your voice heard.</h3>
@@ -95,24 +95,41 @@
 		<input id="verify" class="verifybutton" type=button value="Verify me!" onClick="verify_voter(value)" disabled>
 		
 		<div id="verification-success">
-		<img id="verified-check" src="./imgs/verified-check.png" alt="" style="width: 100px; display: none;">
-		<p id="result-from-verification">Verification status pending to continue...</p>
+			<img id="verified-check" src="./imgs/verified-check.png" alt="" style="width: 100px; display: none;">
+			<p id="result-from-verification">Verification status pending to continue...</p>
 		</div>
 	</form>
 
 	<div><img id="step3" src="./imgs/step3.png" alt="" style="width: 100px; display: none;"></div>
 	<div id="step3-instructions" style="display: none;">
-		<p>Please vote below!</p>
-		<div class="voting-list" id="results" style="display: none;">John Doe</div>
-		<div class="voting-list" id="results" style="display: none;">Mary Smith</div>
-		<div class="voting-list" id="results" style="display: none;">Mark Cunningham</div>
-		<div class="voting-list" id="results" style="display: none;">Brian Steward</div>	
+		<p class="remove-after-vote">Please cast your vote below!</p>
+		<h3 class="remove-after-vote">City Mayor</h3>
+	<form>
+
+		<div class="voting-list remove-after-vote" id="results" style="display: none;">
+			<input type="radio" name="candidate" id="" value="John Doe">
+			<label for="John Doe">John Doe</label>
+		</div>
+		<div class="voting-list remove-after-vote" id="results" style="display: none;">
+			<input type="radio" name="candidate" id="" value="Mary Smith">
+			<label for="Mary Smith">Mary Smith</label>
+		</div>
+		<div class="voting-list remove-after-vote" id="results" style="display: none;">
+			<input type="radio" name="candidate" id="" value="Brian Steward">
+			<label for="Brian Steward">Brian Steward</label>
+		</div>
+		<div class="voting-list remove-after-vote" id="results" style="display: none;">
+			<input type="radio" name="candidate" id="" value="Mark Cunningham">
+			<label for="Mark Cunningham">Mark Cunningham</label>
+		</div>
+		<input id="votebutton" class="remove-after-vote" type=button value="Submit your vote!" onClick="acceptVote()" disabled>
+		<div id="voting-success">
+			<img id="verified-check-vote" src="./imgs/verified-check.png" alt="" style="width: 100px; display: none;">
+			<p id="result-from-voting"></p>
+		</div>
+	</form>
 	</div>
-	<input id="votebutton" class="" type=button value="Submit your vote!" onClick="acceptVote()" disabled>
-		
 
-
-	
 
 
 	<!-- Code to handle taking the snapshot and displaying it locally -->
@@ -279,6 +296,14 @@
 				}
 			}).then(result => {
 				console.log(result);
+				document.getElementById('result-from-voting').innerHTML = "Success! Your vote has been recorded. Thank you for exercising your right to vote! For additional questions or information, please contact the elections office at 1-800-523-3242."
+				document.getElementById("result-from-voting").style.display = "";
+				document.getElementById("result-from-voting").style.color = "green";
+				document.getElementById("verified-check-vote").style.display = "";
+				var elems = document.getElementsByClassName('remove-after-vote');
+				for (var i=0;i<elems.length;i+=1) {
+					elems[i].style.display = "none";
+				}
 			})
 		}
 
