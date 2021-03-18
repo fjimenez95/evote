@@ -26,22 +26,25 @@
 	<nav>
 		<p id="official-title"><img id="flag" src="./imgs/us_flag.png" alt="" style="height: 13px"> An official website of the United States Government</p>
 		<div class="bottom-nav-bar">
-			<img src="./imgs/evote.png" alt="" id="logo">
+			<img src="./imgs/Accuvote.png" alt="" id="logo">
 			<h3 id="title-headline">Making your voice heard.</h3>
 		</div>
 	</nav>
 	<div class="instructions">
+		<h1 id="instructions">Dupage County Municipal Elections</h1>
+		<h3>MARCH 2021</h3>
 		<p id="instructions-title">VOTING INSTRUCTIONS</p>
 		<p>POLLS WILL BE OPEN FROM FRIDAY, MARCH 19, 2021, AT 8 A.M., UNTIL THEY CLOSE AT 5 P.M. ON FRIDAY, MARCH 19.</p>
 		<ul>
-			<li>Be sure to take photo with your face fully visible. No hats, no sunglasses, no smiling!</li>
-			<li>Enter your full first name and last name.</li>
-			<li>INSERT OTHER INSTRUCTIONS HERE!!!!</li>
-			<li>Please follow the instructions below!</li>
+			<li>Be sure to take a photo below with your face fully visible. Please remove all hats, sunglasses, masks or additional jewlery that may prohibit full visiblility of your face. Be sure to center your face as much as possible to the center of the camera.</li>
+			<li>You will not be able to complete the form below until you have taken your photo. If you do not like the photo you have taken, select TAKE SNAPSHOT once again until you are OK with the preview.</li>
+			<li>Once the form is enabled, please enter your full first name and last name and SSN for additional security measures. We want to verify you are you!</li>
+			<li>Once verified, to vote for a candidate of your choice, touch that person’s name.</li>
+			<li>Please follow the instructions below! If you need any help while voting, please contact your county elections office at 1-800-523-3242.</li>
 		</ul>
 	</div>
 	
-	<div><img id="flag" src="./imgs/step1.png" alt="" style="width: 100px"></div>
+	<div><img id="flag" src="./imgs/Step1.png" alt="" style="width: 100px"></div>
 	<div id="photo-instructions">Let's get your photo for verification purposes!</div>
 	
 	<div id="my_camera"></div>
@@ -55,7 +58,7 @@
 			width: 320,
 			height: 240,
 			image_format: 'jpeg',
-			jpeg_quality: 50
+			jpeg_quality: 90
 		});
 		Webcam.attach( '#my_camera' );
 	</script>
@@ -69,7 +72,7 @@
 	
 	<div><img id="flag" src="./imgs/step2.png" alt="" style="width: 100px"></div>
 
-	<div id="temporary-instructions">You must take photo before filling out information below.</div>
+	<div id="temporary-instructions">You must take photo above before filling out information below.</div>
 	<!-- Form for the Information -->
 	<form class="form">
 		<div>Please fill out the form below accurately to correctly verify your information.</div>
@@ -90,10 +93,22 @@
 			<input id="mydata" type="hidden" name="mydata" value=""/>
 
 		<input id="verify" class="verifybutton" type=button value="Verify me!" onClick="verify_voter(value)" disabled>
+		
+		<div id="verification-success">
+		<img id="verified-check" src="./imgs/verified-check.png" alt="" style="width: 100px; display: none;">
+		<p id="result-from-verification">Verification status pending to continue...</p>
+		</div>
 	</form>
 
-	<div id="result-from-verification"></div>
+	<div><img id="step3" src="./imgs/step3.png" alt="" style="width: 100px; display: none;"></div>
+	<div id="step3-instructions" style="display: none;">Please vote below!</div>
+	<div class="voting-list" id="results" style="display: none;">John Doe</div>
+	<div class="voting-list" id="results" style="display: none;">Mary Smith</div>
+	<div class="voting-list" id="results" style="display: none;">Mark Cunningham</div>
+	<div class="voting-list" id="results" style="display: none;">Brian Steward</div>
 
+
+	
 
 
 	<!-- Code to handle taking the snapshot and displaying it locally -->
@@ -120,31 +135,6 @@
 			document.getElementById("verify").style.background = "rgb(18,90,156)";
 
 		}
-		// 	// UPLOAD IMAGE
-		// 	var requestOptions = {
-		// 	method: 'POST',
-		// 	headers: {
-		// 		"Content-Type": "application/json"
-		// 	},
-		// 	body: JSON.stringify({
-		// 		voter_image_name: "test-image.jpg", 
-		// 		voter_image_content: base64EncodedImage, 
-		// 	}),
-		// 	}
-			
-		// 	fetch(`${BASE_URL}/upload_voter_image`, 
-		// 	requestOptions).then(response => {
-		// 		if(response == 401 || response == 403) {
-		// 			console.log('error')
-		// 		}
-		// 		else {
-		// 			console.log('good', response)
-		// 			return response.text()
-		// 		}
-		// 	}).then(result => {
-		// 		console.log(result);
-		// 	})
-		// }
 
 		async function verify_voter() {
 			event.preventDefault();
@@ -206,8 +196,27 @@
 				}
 			}).then(result => {
 				console.log(result);
+				verificationHandler(result);
+				document.getElementById('result-from-verification').innerHTML = "You have been verified and are eligible to vote! Please follow the instructions below."
+				document.getElementById("result-from-verification").style.display = "";
+				document.getElementById("result-from-verification").style.color = "green";
+				document.getElementById("verified-check").style.display = "";
+				document.getElementById("step3").style.display = "";
+				document.getElementById("step3-instructions").style.display = "";
+				var elems = document.getElementsByClassName('voting-list');
+				for (var i=0;i<elems.length;i+=1) {
+					elems[i].style.display = "";
+				}
 			})
+
 		}
+
+	function verificationHandler(result) {
+		if (result == "Voter is valid and has not voted yet") {
+			document.getElementById('result-from-verification').innerHTML = "You have been verified! Please follow the instructions below."
+			
+		}
+	}
 
 
 	function acceptVote() {
@@ -220,7 +229,6 @@
 			body: JSON.stringify([{
 				ssn: ssn,
 			}]),
-			// mode: 'no-cors'
 			}
 			
 			fetch(`${BASE_URL}/accept_vote`, 

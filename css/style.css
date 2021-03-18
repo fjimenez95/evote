@@ -10,6 +10,7 @@ body {
     font-family: 'Poppins', sans-serif;
     justify-content: center;
     align-items: center;
+    background-color: rgb(243,243,243);
   }
   
 .instructions {
@@ -90,7 +91,7 @@ nav {
 }
 
 
-#results { 
+#results, #step3-instructions { 
     float:right; 
     margin:20px; 
     padding:20px; 
@@ -142,4 +143,16 @@ video {
     margin: 5% 0 0 0;
     justify-content: center;
     font-family: 'Poppins', sans-serif;
+}
+
+#result-from-verification {
+    text-align: center;
+    color: black;
+}
+
+#verification-success {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 5% 0 0 0;
 }
