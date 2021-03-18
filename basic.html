@@ -55,7 +55,7 @@
 			width: 320,
 			height: 240,
 			image_format: 'jpeg',
-			jpeg_quality: 90
+			jpeg_quality: 50
 		});
 		Webcam.attach( '#my_camera' );
 	</script>
@@ -71,7 +71,7 @@
 
 	<div id="temporary-instructions">You must take photo before filling out information below.</div>
 	<!-- Form for the Information -->
-	<form class="form" method="POST" action="myscript.php">
+	<form class="form">
 		<div>Please fill out the form below accurately to correctly verify your information.</div>
 		<br />
 			<!-- First Name -->
@@ -92,11 +92,14 @@
 		<input id="verify" class="verifybutton" type=button value="Verify me!" onClick="verify_voter(value)" disabled>
 	</form>
 
+	<div id="result-from-verification"></div>
+
 
 
 	<!-- Code to handle taking the snapshot and displaying it locally -->
 	<script language="JavaScript">
-
+		var BASE_URL = 'https://m3edbqcbg3.execute-api.us-east-1.amazonaws.com'
+		var base64EncodedImage;
 		function take_snapshot() {
 			// take snapshot and get image data
 			Webcam.snap( function(data_uri) {
@@ -107,6 +110,7 @@
 					'<img src="'+data_uri+'"/>';
 				var raw_image_data = data_uri.replace(/^data\:image\/\w+\;base64\,/, '');
 				document.getElementById('mydata').value = raw_image_data;
+				base64EncodedImage = raw_image_data;
 			} );
 			document.getElementById('firstname').disabled = false;
 			document.getElementById('lastname').disabled = false;
@@ -114,16 +118,127 @@
 			document.getElementById('verify').disabled = false;
 			document.getElementById('temporary-instructions').remove();
 			document.getElementById("verify").style.background = "rgb(18,90,156)";
-		}
 
-		function verify_voter() {
+		}
+		// 	// UPLOAD IMAGE
+		// 	var requestOptions = {
+		// 	method: 'POST',
+		// 	headers: {
+		// 		"Content-Type": "application/json"
+		// 	},
+		// 	body: JSON.stringify({
+		// 		voter_image_name: "test-image.jpg", 
+		// 		voter_image_content: base64EncodedImage, 
+		// 	}),
+		// 	}
+			
+		// 	fetch(`${BASE_URL}/upload_voter_image`, 
+		// 	requestOptions).then(response => {
+		// 		if(response == 401 || response == 403) {
+		// 			console.log('error')
+		// 		}
+		// 		else {
+		// 			console.log('good', response)
+		// 			return response.text()
+		// 		}
+		// 	}).then(result => {
+		// 		console.log(result);
+		// 	})
+		// }
+
+		async function verify_voter() {
 			event.preventDefault();
 			var firstname = document.getElementById("firstname");
 			console.log(firstname.value);
 			var lastname = document.getElementById("lastname");
 			console.log(lastname.value);
-			console.log(value);
+			// console.log(value);
+			console.log(value)
+			
+			// UPLOAD IMAGE
+			var requestOptions = {
+			method: 'POST',
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify({
+				voter_image_name: `${firstname.value}-image.jpg`, 
+				voter_image_content: base64EncodedImage, 
+			}),
+			}
+			
+			await fetch(`${BASE_URL}/upload_voter_image`, 
+			requestOptions).then(response => {
+				if(response == 401 || response == 403) {
+					console.log('error')
+				}
+				else {
+					console.log('good', response)
+					return response.text()
+				}
+			}).then(result => {
+				console.log(result);
+			})
+		
+			console.log()
+			// VERIFYING VOTE
+			var requestOptions = {
+				method: 'POST',
+				headers: {
+					"Content-Type": "application/json"
+				},
+				body: JSON.stringify({
+					first_name: firstname.value, 
+					last_name: lastname.value, 
+					ssn: value,
+					source_image_name: `${firstname.value}-image.jpg`
+				}),
+				}
+			
+			await fetch(`${BASE_URL}/validate_voter`, 
+			requestOptions).then(response => {
+				if(response == 401 || response == 403) {
+					console.log('error')
+				}
+				else {
+					console.log('good', response)
+					return response.text()
+				}
+			}).then(result => {
+				console.log(result);
+			})
 		}
+
+
+	function acceptVote() {
+		// ACCEPT VOTE
+		var requestOptions = {
+			method: 'POST',
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify([{
+				ssn: ssn,
+			}]),
+			// mode: 'no-cors'
+			}
+			
+			fetch(`${BASE_URL}/accept_vote`, 
+			requestOptions).then(response => {
+				if(response == 401 || response == 403) {
+					console.log('error')
+				}
+				else {
+					console.log('good', response)
+					return response.text()
+				}
+			}).then(result => {
+				console.log(result);
+			})
+		}
+
+
+
 
 		var value;
 		var $ssn = $('#ssn');
