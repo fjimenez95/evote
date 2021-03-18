@@ -1,0 +1,145 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=La+Belle+Aurore&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=La+Belle+Aurore&family=Poppins:wght@700&display=swap');
+
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    margin: 120px 0 0 0;
+    font-family: 'Poppins', sans-serif;
+    justify-content: center;
+    align-items: center;
+  }
+  
+.instructions {
+    margin: 10% 10% 5% 10%;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    float:right; 
+    margin:20px; 
+    padding:20px; 
+    border:1px solid; 
+    background:#ccc; 
+}
+
+video {
+    display: flex;
+}
+
+nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: rgb(18,90,156);
+    box-shadow: 0 3px 10px 5px rgba(0,0,0,.2);
+}
+
+#official-title {
+    width: 100%;
+    font-size: 12px;
+    background-color: rgb(243,243,243);
+    margin: 0;
+}
+
+#title-headline {
+    color: white;
+    font-size: 20px;
+    margin: 15% 5% 0 0;
+    font-family: 'La Belle Aurore', cursive;
+}
+
+#flag {
+    margin: 3px 0 0 3px;
+}
+
+#logo {
+    margin: 5% 0 0 5%;
+    height: 75px;
+}
+
+.bottom-nav-bar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 0 0 5% 0;
+}
+
+#instructions-title {
+    color: red;
+    font-weight: bold;
+}
+
+.button {
+    color: #fff !important;
+    text-transform: uppercase;
+    text-decoration: none;
+    background: rgb(18,90,156);
+    padding: 10px;
+    border-radius: 5px;
+    display: inline-block;
+    border: none;
+    transition: all 0.4s ease 0s;
+    font-size: 20px;
+    margin: 15% 0 0 0;
+    justify-content: center;
+    font-family: 'Poppins', sans-serif;
+}
+
+
+#results { 
+    float:right; 
+    margin:20px; 
+    padding:20px; 
+    border:1px solid; 
+    background:#ccc; 
+}
+
+
+video {
+    border-radius: 10%;
+    margin: 5% 0 0 0;
+}
+
+#firstname, #lastname, #ssn {
+    width: 75%;
+    margin: 5%;
+    height: 30px;
+    font-size: 17px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.form-title {
+    text-align: left;
+}
+
+#temporary-instructions {
+    margin: 5% 5% 0 5%;
+    text-align: center;
+    color: red;
+    width: 700;
+}
+
+#photo-instructions {
+    margin: 5% 5% 0 5%;
+    text-align: center;
+}
+
+.verifybutton {
+    color: #fff !important;
+    text-transform: uppercase;
+    text-decoration: none;
+    background: gray;
+    padding: 10px;
+    border-radius: 5px;
+    display: inline-block;
+    border: none;
+    transition: all 0.4s ease 0s;
+    font-size: 20px;
+    margin: 5% 0 0 0;
+    justify-content: center;
+    font-family: 'Poppins', sans-serif;
+}
