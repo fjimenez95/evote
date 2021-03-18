@@ -105,27 +105,26 @@
 		<p class="remove-after-vote">Please cast your vote below!</p>
 		<h3 class="remove-after-vote">City Mayor</h3>
 	<form>
-
 		<div class="voting-list remove-after-vote" id="results" style="display: none;">
-			<input type="radio" name="candidate" id="" value="John Doe">
-			<label for="John Doe">John Doe</label>
+			<input type="radio" name="candidate" id="" value="John Doe" style="transform: scale(2);">
+			<label class="label-name-voters" for="John Doe">John Doe</label>
 		</div>
 		<div class="voting-list remove-after-vote" id="results" style="display: none;">
-			<input type="radio" name="candidate" id="" value="Mary Smith">
-			<label for="Mary Smith">Mary Smith</label>
+			<input type="radio" name="candidate" id="" value="Mary Smith" style="transform: scale(2);">
+			<label class="label-name-voters" for="Mary Smith">Mary Smith</label>
 		</div>
 		<div class="voting-list remove-after-vote" id="results" style="display: none;">
-			<input type="radio" name="candidate" id="" value="Brian Steward">
-			<label for="Brian Steward">Brian Steward</label>
+			<input type="radio" name="candidate" id="" value="Brian Steward" style="transform: scale(2);">
+			<label class="label-name-voters" for="Brian Steward">Brian Steward</label>
 		</div>
 		<div class="voting-list remove-after-vote" id="results" style="display: none;">
-			<input type="radio" name="candidate" id="" value="Mark Cunningham">
-			<label for="Mark Cunningham">Mark Cunningham</label>
+			<input type="radio" name="candidate" id="" value="Mark Cunningham" style="transform: scale(2);">
+			<label class="label-name-voters" for="Mark Cunningham">Mark Cunningham</label>
 		</div>
 		<input id="votebutton" class="remove-after-vote" type=button value="Submit your vote!" onClick="acceptVote()" disabled>
-		<div id="voting-success">
+		<div class="voting-success">
 			<img id="verified-check-vote" src="./imgs/verified-check.png" alt="" style="width: 100px; display: none;">
-			<p id="result-from-voting"></p>
+			<p id="result-from-voting">You will receive a success message after hitting submit.</p>
 		</div>
 	</form>
 	</div>

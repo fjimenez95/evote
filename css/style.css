@@ -92,7 +92,7 @@ nav {
 
 
 #results, #step3-instructions { 
-    float:right; 
+    float:left; 
     margin:20px; 
     padding:20px; 
     border:1px solid; 
@@ -168,20 +168,26 @@ video {
     border: none;
     transition: all 0.4s ease 0s;
     font-size: 20px;
-    margin: 0 0 15% 0;
+    margin: 5% 0 0 0;
     justify-content: center;
     font-family: 'Poppins', sans-serif;
     width: 100%
 }
 
-#step3-instructions {
-    display: flex;
-    flex-direction: column;
-}
 
-#voting-success {
+#step3-instructions, .voting-success {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+#result-from-voting {
+    text-align: center;
+    color: rgb(96, 94, 94);
+}
+
+.label-name-voters {
+    font-size: 17px;
+    margin: 0 0 0 10px;
 }
